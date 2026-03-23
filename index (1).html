@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+  <meta name="theme-color" content="#020408"/>
+  <title>A Message for Aira</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+
+  <!-- ══════════════════════════════════
+       GLOBAL BACKGROUNDS
+  ══════════════════════════════════ -->
+  <canvas id="star-canvas"></canvas>
+  <div id="petal-canvas"></div>
+
+  <div id="mist">
+    <div class="mist-l" id="ml1"></div>
+    <div class="mist-l" id="ml2"></div>
+  </div>
+
+  <div id="mountain-wrap">
+    <svg id="mt-svg" viewBox="0 0 1440 320" preserveAspectRatio="none">
+      <path d="M0,224L48,213C96,203,192,181,288,181C384,181,480,203,576,224C672,245,768,267,864,251C960,235,1056,181,1152,165C1248,149,1344,171,1392,181L1440,192L1440,320L0,320Z"/>
+    </svg>
+    <div id="mt-fade"></div>
+  </div>
+
+  <div id="vignette"></div>
+
+  <!-- ══════════════════════════════════
+       AUDIO BUTTON
+  ══════════════════════════════════ -->
+  <button id="audio-btn" aria-label="Toggle sound" aria-pressed="false">
+    <span id="a-pulse"></span>
+    <svg id="ico-on" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+      <path d="M15.54 8.46a5 5 0 0 1 0 7.07"/>
+      <path d="M19.07 4.93a10 10 0 0 1 0 14.14"/>
+    </svg>
+    <svg id="ico-off" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+      <line x1="23" y1="9" x2="17" y2="15"/>
+      <line x1="17" y1="9" x2="23" y2="15"/>
+    </svg>
+  </button>
+
+  <!-- ══════════════════════════════════
+       NAVIGATION
+  ══════════════════════════════════ -->
+  <nav id="main-nav">
+    <button class="nav-btn active" data-page="story">
+      <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+      </svg>
+      <span class="nl">Story</span>
+      <span class="npip"></span>
+    </button>
+    <button class="nav-btn" data-page="reminders">
+      <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+      </svg>
+      <span class="nl">Reminders</span>
+      <span class="npip"></span>
+    </button>
+    <button class="nav-btn" data-page="contact">
+      <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+      </svg>
+      <span class="nl">Reach Out</span>
+      <span class="npip"></span>
+    </button>
+    <button class="nav-btn" data-page="credits">
+      <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+      </svg>
+      <span class="nl">Credits</span>
+      <span class="npip"></span>
+    </button>
+  </nav>
+
+  <!-- ══════════════════════════════════
+       ENTRY SCREEN
+  ══════════════════════════════════ -->
+  <div id="entry">
+    <div id="e-emblem">
+      <span class="e-ring r1"></span>
+      <span class="e-ring r2"></span>
+      <span class="e-ring r3"></span>
+      <span id="e-core">
+        <span id="e-moon"></span>
+      </span>
+      <span class="e-petal p1">✿</span>
+      <span class="e-petal p2">✿</span>
+      <span class="e-petal p3">✿</span>
+      <span class="e-petal p4">✿</span>
+      <span class="e-petal p5">✿</span>
+      <span class="e-petal p6">✿</span>
+    </div>
+
+    <h1 id="e-title">A Message for Aira</h1>
+
+    <button id="e-btn" type="button">
+      <span class="shimmer"></span>
+      Enter Peacefully
+    </button>
+
+    <p id="e-hint">✦ Best experienced with sound ✦</p>
+  </div>
+
+  <!-- ══════════════════════════════════
+       PAGE: STORY
+  ══════════════════════════════════ -->
+  <main id="page-story" class="page" style="display:none">
+
+    <div id="scroll-hint">
+      <span>Scroll to begin</span>
+      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <polyline points="6 9 12 15 18 9"/>
+      </svg>
+    </div>
+
+    <!-- S1: Opening -->
+    <section class="sec" id="s1">
+      <div class="card c-mystical reveal-card">
+        <div class="moon-wrap">
+          <svg xmlns="http://www.w3.org/2000/svg" width="68" height="68" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+          </svg>
+          <span class="moon-ring"></span>
+        </div>
+        <h2 class="hero-h">Hey Aira…</h2>
+        <div class="open-lines">
+          <p class="ol">I couldn't explain everything properly in chat,</p>
+          <p class="ol">so I made this.</p>
+          <p class="ol">I wanted to say it calmly, clearly,</p>
+          <p class="ol">and without any confusion.</p>
+        </div>
+        <button class="start-btn" id="start-btn">Start reading</button>
+      </div>
+    </section>
+
+    <!-- S2: Talking -->
+    <section class="sec" id="s2">
+      <div class="card c-warm reveal-card">
+        <svg class="bg-ico" viewBox="0 0 24 24" fill="currentColor"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+        <div class="icon-h center">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(167,139,250,0.5)" stroke-width="1.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <h3 class="sh">I really liked talking to you.</h3>
+        </div>
+        <p class="sb center">You never disturbed me.</p>
+        <p class="sb center">In fact, you were one of the few people I could genuinely talk to and understand.</p>
+        <p class="sb si sb-bright sb-large center delayed-fade">I didn't say this much, but I valued our conversations.</p>
+      </div>
+    </section>
+
+    <!-- S3: Real issue -->
+    <section class="sec" id="s3">
+      <div class="card c-vuln reveal-card">
+        <div class="icon-h left">
+          <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="1.5"><path d="M9.59 4.59A2 2 0 1 1 11 8H2m10.59 11.41A2 2 0 1 0 14 16H2m15.73-8.27A2.5 2.5 0 1 1 19.5 12H2"/></svg>
+          <h3 class="sh">The real issue</h3>
+        </div>
+        <p class="sb">There's something about me that I've been trying to understand and fix.</p>
+        <p class="sb">When I start caring about someone, my mind begins to react too strongly to small things.</p>
+        <div class="quote-bar">
+          <p class="qi si">A late reply…</p>
+          <p class="qi si">a sudden silence…</p>
+          <p class="qi si">a conversation ending in the middle…</p>
+        </div>
+        <p class="sb">These are normal things, but my mind doesn't treat them normally.</p>
+        <p class="sb">It keeps thinking about them again and again, even when I don't want to.</p>
+      </div>
+    </section>
+
+    <!-- S4: Effect -->
+    <section class="sec" id="s4">
+      <div class="card c-drain reveal-card">
+        <svg class="top-ico bounce" xmlns="http://www.w3.org/2000/svg" width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.18)" stroke-width="1.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+        <h3 class="sh center">What it does to me</h3>
+        <p class="sb center">Because of that, I start losing focus.</p>
+        <p class="sb center">It drains my energy, and even when I try to think about my life, my mind keeps going back to the same thoughts.</p>
+        <p class="sb si sb-bright sb-large center pulse-text">I want to talk, but at the same time, I know how much it can affect me.</p>
+      </div>
+    </section>
+
+    <!-- S5: Life -->
+    <section class="sec" id="s5">
+      <div class="card c-stable reveal-card">
+        <svg class="top-ico" xmlns="http://www.w3.org/2000/svg" width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="1.5"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+        <h3 class="sh center">My life right now</h3>
+        <p class="sb center">Right now, I'm trying to build myself.</p>
+        <p class="sb center">I want to work on my future, improve my situation, take care of my health, my sleep, and become more stable.</p>
+        <p class="sb center">I don't have unlimited time or resources, so I have to be careful where I invest my energy.</p>
+      </div>
+    </section>
+
+    <!-- S6: Decision -->
+    <section class="sec" id="s6">
+      <div class="card c-split reveal-card">
+        <svg class="top-ico" xmlns="http://www.w3.org/2000/svg" width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.18)" stroke-width="1.5"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+        <h3 class="sh center">The decision</h3>
+        <p class="sb center">So I stepped back.</p>
+        <p class="sb center">Not because you did something wrong. Not because I didn't like talking to you.</p>
+        <div class="hl-box">
+          <span class="hl-line"></span>
+          <p class="hl-text si center">I stepped back because I couldn't manage my own mind properly.</p>
+          <span class="hl-line"></span>
+        </div>
+        <p class="sb center">I didn't want to keep talking while struggling internally every day.</p>
+      </div>
+    </section>
+
+    <!-- S7: Answer -->
+    <section class="sec" id="s7">
+      <div class="card c-protect reveal-card">
+        <svg class="top-ico pulse-ico" xmlns="http://www.w3.org/2000/svg" width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="rgba(147,197,253,0.3)" stroke-width="1.2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        <h3 class="sh center">Answer to your question</h3>
+        <p class="sb center">You once asked me what was wrong in you so you could improve.</p>
+        <p class="blur-reveal si center" id="blur-ans">Honestly… there is nothing wrong with you.</p>
+        <p class="sb center">This was never about you being a problem.</p>
+        <p class="sb center">The real issue is how my mind reacts, how I handle attachment, and how I deal with small uncertainties.</p>
+        <p class="sb sb-bright sb-large center">So please don't think you need to change yourself because of this.</p>
+        <p class="massive center" id="not-problem">You are not the problem.</p>
+      </div>
+    </section>
+
+    <!-- S8: Respect -->
+    <section class="sec" id="s8">
+      <div class="card c-peace reveal-card">
+        <svg class="top-ico" style="transform:rotate(-45deg)" xmlns="http://www.w3.org/2000/svg" width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.18)" stroke-width="1.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+        <h3 class="sh center">Respect and care</h3>
+        <p class="sb center">You're a good person, and I respect you.</p>
+        <p class="sb center">I know life can already be heavy sometimes, so I didn't want to add more weight to it.</p>
+        <p class="sb center">That's why I chose to say this in a calm and clear way.</p>
+      </div>
+    </section>
+
+    <!-- S9: Ending -->
+    <section class="sec" id="s9">
+      <div class="card c-peace reveal-card">
+        <p class="sb center">I didn't disappear.</p>
+        <p class="sb center">I just took a step back to understand myself better.</p>
+        <p class="sb si sb-muted center">No pressure. No expectations.</p>
+        <div id="tc-wrap">
+          <h2 id="tc-text">Take care, Aira.</h2>
+          <span id="tc-line"></span>
+          <p id="tc-sakura">✿ ✿ ✿</p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ══════════════════════════════════
+       PAGE: REMINDERS
+  ══════════════════════════════════ -->
+  <div id="page-reminders" class="page" style="display:none">
+    <div id="sk-bg"></div>
+    <div id="rem-petals"></div>
+
+    <header id="rem-hdr">
+      <div id="rem-emblem">
+        <div id="rem-spin">
+          <svg xmlns="http://www.w3.org/2000/svg" width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="rgba(255,183,197,0.7)" stroke-width="1.5" stroke-linecap="round">
+            <path d="M12 2a3 3 0 0 0-3 3v1a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"/>
+            <path d="M12 22a3 3 0 0 0 3-3v-1a3 3 0 0 0-6 0v1a3 3 0 0 0 3 3z"/>
+            <path d="M2 12a3 3 0 0 0 3 3h1a3 3 0 0 0 0-6H5a3 3 0 0 0-3 3z"/>
+            <path d="M22 12a3 3 0 0 0-3-3h-1a3 3 0 0 0 0 6h1a3 3 0 0 0 3-3z"/>
+            <path d="M19.07 4.93a3 3 0 0 0-4.24 0l-.71.71a3 3 0 0 0 4.24 4.24l.71-.71a3 3 0 0 0 0-4.24z"/>
+            <path d="M4.93 19.07a3 3 0 0 0 4.24 0l.71-.71a3 3 0 0 0-4.24-4.24l-.71.71a3 3 0 0 0 0 4.24z"/>
+            <path d="M4.93 4.93a3 3 0 0 0 0 4.24l.71.71a3 3 0 0 0 4.24-4.24l-.71-.71a3 3 0 0 0-4.24 0z"/>
+            <path d="M19.07 19.07a3 3 0 0 0 0-4.24l-.71-.71a3 3 0 0 0-4.24 4.24l.71.71a3 3 0 0 0 4.24 0z"/>
+          </svg>
+        </div>
+        <span id="rem-ring"></span>
+        <span id="rem-ring2"></span>
+      </div>
+      <h1 id="rem-title">Gentle Reminders</h1>
+      <p id="rem-sub">Take these as small petals of peace for the days that feel heavy.</p>
+    </header>
+
+    <div id="cards-grid">
+
+      <div class="qc reveal-qc">
+        <svg class="cb" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-linecap="round"><path d="M100,0 C80,20 60,10 40,30 C20,50 30,70 0,100" stroke-width="2"/><path d="M80,0 C70,15 75,25 60,35" stroke-width="1"/><path d="M50,15 C45,25 55,30 40,45" stroke-width="1"/></svg>
+        <svg class="cb cb-bot" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-linecap="round"><path d="M100,0 C80,20 60,10 40,30 C20,50 30,70 0,100" stroke-width="2"/></svg>
+        <div class="ci"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></div>
+        <p class="cq">"You do not need to be perfect to be loved."</p>
+        <span class="cl"></span>
+      </div>
+
+      <div class="qc reveal-qc">
+        <svg class="cb" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-linecap="round"><path d="M100,0 C80,20 60,10 40,30 C20,50 30,70 0,100" stroke-width="2"/><path d="M80,0 C70,15 75,25 60,35" stroke-width="1"/></svg>
+        <svg class="cb cb-bot" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-linecap="round"><path d="M100,0 C80,20 60,10 40,30 C20,50 30,70 0,100" stroke-width="2"/></svg>
+        <div class="ci"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></div>
+        <p class="cq">"Healing takes time, and time is allowed."</p>
+        <span class="cl"></span>
+      </div>
+
+      <div class="qc reveal-qc">
+        <svg class="cb" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-linecap="round"><path d="M100,0 C80,20 60,10 40,30 C20,50 30,70 0,100" stroke-width="2"/><path d="M80,0 C70,15 75,25 60,35" stroke-width="1"/></svg>
+        <svg class="cb cb-bot" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-linecap="round"><path d="M100,0 C80,20 60,10 40,30 C20,50 30,70 0,100" stroke-width="2"/></svg>
+        <div class="ci"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+        <p class="cq">"Soft hearts are not weak hearts."</p>
+        <span class="cl"></span>
+      </div>
+
+      <div class="qc reveal-qc">
+        <svg class="cb" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-linecap="round"><path d="M100,0 C80,20 60,10 40,30 C20,50 30,70 0,100" stroke-width="2"/><path d="M80,0 C70,15 75,25 60,35" stroke-width="1"/></svg>
+        <svg class="cb cb-bot" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-linecap="round"><path d="M100,0 C80,20 60,10 40,30 C20,50 30,70 0,100" stroke-width="2"/></svg>
+        <div class="ci"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg></div>
+        <p class="cq">"Small steps still move you forward."</p>
+        <span class="cl"></span>
+      </div>
+
+      <div class="qc reveal-qc">
+        <svg class="cb" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-linecap="round"><path d="M100,0 C80,20 60,10 40,30 C20,50 30,70 0,100" stroke-width="2"/><path d="M80,0 C70,15 75,25 60,35" stroke-width="1"/></svg>
+        <svg class="cb cb-bot" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-linecap="round"><path d="M100,0 C80,20 60,10 40,30 C20,50 30,70 0,100" stroke-width="2"/></svg>
+        <div class="ci"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9.59 4.59A2 2 0 1 1 11 8H2"/><path d="M10.59 19.41A2 2 0 1 0 14 16H2"/><path d="M15.73 3.73A2.5 2.5 0 1 1 19.5 12H2"/></svg></div>
+        <p class="cq">"Even quiet strength is strength."</p>
+        <span class="cl"></span>
+      </div>
+
+      <div class="qc reveal-qc">
+        <svg class="cb" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-linecap="round"><path d="M100,0 C80,20 60,10 40,30 C20,50 30,70 0,100" stroke-width="2"/><path d="M80,0 C70,15 75,25 60,35" stroke-width="1"/></svg>
+        <svg class="cb cb-bot" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-linecap="round"><path d="M100,0 C80,20 60,10 40,30 C20,50 30,70 0,100" stroke-width="2"/></svg>
+        <div class="ci"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17 8C8 10 5.9 16.17 3.82 19.5c1.27-1.4 3.6-2.5 7.18-2.5 7 0 11-5 11-10S17 2 12 2c-5.5 0-10 4.5-10 10s4.5 10 10 10"/></svg></div>
+        <p class="cq">"You are allowed to rest."</p>
+        <span class="cl"></span>
+      </div>
+
+      <div class="qc reveal-qc">
+        <svg class="cb" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-linecap="round"><path d="M100,0 C80,20 60,10 40,30 C20,50 30,70 0,100" stroke-width="2"/><path d="M80,0 C70,15 75,25 60,35" stroke-width="1"/></svg>
+        <svg class="cb cb-bot" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-linecap="round"><path d="M100,0 C80,20 60,10 40,30 C20,50 30,70 0,100" stroke-width="2"/></svg>
+        <div class="ci"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 3c-1 4-4 6-6 8 2 2 5 4 6 8 1-4 4-6 6-8-2-2-5-4-6-8z"/><path d="M5 3v4M19 17v4M3 5h4M17 19h4"/></svg></div>
+        <p class="cq">"Some days are just for breathing, not proving."</p>
+        <span class="cl"></span>
+      </div>
+
+      <div class="qc reveal-qc">
+        <svg class="cb" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-linecap="round"><path d="M100,0 C80,20 60,10 40,30 C20,50 30,70 0,100" stroke-width="2"/><path d="M80,0 C70,15 75,25 60,35" stroke-width="1"/></svg>
+        <svg class="cb cb-bot" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-linecap="round"><path d="M100,0 C80,20 60,10 40,30 C20,50 30,70 0,100" stroke-width="2"/></svg>
+        <div class="ci"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+        <p class="cq">"Your pace is still your pace, and that is okay."</p>
+        <span class="cl"></span>
+      </div>
+
+      <div class="qc reveal-qc">
+        <svg class="cb" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-linecap="round"><path d="M100,0 C80,20 60,10 40,30 C20,50 30,70 0,100" stroke-width="2"/><path d="M80,0 C70,15 75,25 60,35" stroke-width="1"/></svg>
+        <svg class="cb cb-bot" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-linecap="round"><path d="M100,0 C80,20 60,10 40,30 C20,50 30,70 0,100" stroke-width="2"/></svg>
+        <div class="ci"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></div>
+        <p class="cq">"You deserve calm, kindness, and peace."</p>
+        <span class="cl"></span>
+      </div>
+
+      <div class="qc reveal-qc">
+        <svg class="cb" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-linecap="round"><path d="M100,0 C80,20 60,10 40,30 C20,50 30,70 0,100" stroke-width="2"/><path d="M80,0 C70,15 75,25 60,35" stroke-width="1"/></svg>
+        <svg class="cb cb-bot" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-linecap="round"><path d="M100,0 C80,20 60,10 40,30 C20,50 30,70 0,100" stroke-width="2"/></svg>
+        <div class="ci"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2a3 3 0 0 0-3 3v1a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"/><path d="M12 22a3 3 0 0 0 3-3v-1a3 3 0 0 0-6 0v1a3 3 0 0 0 3 3z"/><path d="M2 12a3 3 0 0 0 3 3h1a3 3 0 0 0 0-6H5a3 3 0 0 0-3 3z"/><path d="M22 12a3 3 0 0 0-3-3h-1a3 3 0 0 0 0 6h1a3 3 0 0 0 3-3z"/></svg></div>
+        <p class="cq">"Every breath is a small victory."</p>
+        <span class="cl"></span>
+      </div>
+
+    </div>
+
+    <!-- Bloom button -->
+    <div id="bloom-wrap">
+      <div id="bloom-glow"></div>
+      <button id="bloom-btn">
+        <div id="bloom-ico">
+          <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M12 2a3 3 0 0 0-3 3v1a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"/>
+            <path d="M12 22a3 3 0 0 0 3-3v-1a3 3 0 0 0-6 0v1a3 3 0 0 0 3 3z"/>
+            <path d="M2 12a3 3 0 0 0 3 3h1a3 3 0 0 0 0-6H5a3 3 0 0 0-3 3z"/>
+            <path d="M22 12a3 3 0 0 0-3-3h-1a3 3 0 0 0 0 6h1a3 3 0 0 0 3-3z"/>
+          </svg>
+        </div>
+        <span id="bloom-lbl">Hold to Bloom</span>
+      </button>
+      <p id="bloom-hint">Breathe with the sakura.<br>Let every breath bring you a little more peace.</p>
+    </div>
+
+    <!-- Footer -->
+    <footer id="rem-foot">
+      <span class="fline"></span>
+      <div id="foot-flower">
+        <svg xmlns="http://www.w3.org/2000/svg" width="240" height="240" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 2a3 3 0 0 0-3 3v1a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"/><path d="M12 22a3 3 0 0 0 3-3v-1a3 3 0 0 0-6 0v1a3 3 0 0 0 3 3z"/><path d="M2 12a3 3 0 0 0 3 3h1a3 3 0 0 0 0-6H5a3 3 0 0 0-3 3z"/><path d="M22 12a3 3 0 0 0-3-3h-1a3 3 0 0 0 0 6h1a3 3 0 0 0 3-3z"/><path d="M19.07 4.93a3 3 0 0 0-4.24 0l-.71.71a3 3 0 0 0 4.24 4.24l.71-.71a3 3 0 0 0 0-4.24z"/><path d="M4.93 19.07a3 3 0 0 0 4.24 0l.71-.71a3 3 0 0 0-4.24-4.24l-.71.71a3 3 0 0 0 0 4.24z"/><path d="M4.93 4.93a3 3 0 0 0 0 4.24l.71.71a3 3 0 0 0 4.24-4.24l-.71-.71a3 3 0 0 0-4.24 0z"/><path d="M19.07 19.07a3 3 0 0 0 0-4.24l-.71-.71a3 3 0 0 0-4.24 4.24l.71.71a3 3 0 0 0 4.24 0z"/>
+        </svg>
+      </div>
+      <h2 id="keep-blooming">Keep blooming, Aira.</h2>
+      <p id="world-beautiful">The world is more beautiful with you in it.</p>
+      <span class="fline fline-bot"></span>
+    </footer>
+  </div>
+
+  <!-- ══════════════════════════════════
+       PAGE: CONTACT
+  ══════════════════════════════════ -->
+  <div id="page-contact" class="page" style="display:none">
+    <div id="ct-glow"></div>
+
+    <div id="ct-card">
+      <div id="ct-head">
+        <div id="ct-heart">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+        </div>
+        <h1 id="ct-title">If you ever want to reach out</h1>
+        <p id="ct-sub">You do not have to reply. You do not have to decide now.<br>This is only here if you ever want it.</p>
+      </div>
+
+      <!-- Idle -->
+      <div id="ct-idle">
+        <div id="ct-grid">
+          <button class="ct-btn" id="ct-wa">
+            <div class="ct-ico"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
+            <span class="ct-lbl">WhatsApp</span>
+          </button>
+          <button class="ct-btn" id="ct-maybe">
+            <div class="ct-ico"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+            <span class="ct-lbl">Maybe later</span>
+          </button>
+          <button class="ct-btn" id="ct-read">
+            <div class="ct-ico"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></div>
+            <span class="ct-lbl">Just read</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Questions -->
+      <div id="ct-qs" class="ct-panel" style="display:none">
+        <p id="q-count">Question 1 of 3</p>
+        <h3 id="q-text">Are you feeling peaceful right now?</h3>
+        <button id="q-yes">Yes, I do <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></button>
+        <button id="q-no">Not right now</button>
+      </div>
+
+      <!-- WhatsApp -->
+      <div id="ct-whatsapp" class="ct-panel" style="display:none">
+        <div id="wa-box">
+          <p id="wa-lbl">My WhatsApp</p>
+          <p id="wa-num">+91 7055502899</p>
+          <p id="wa-hint">Feel free to message whenever you're ready.</p>
+        </div>
+        <div id="wa-row">
+          <button id="wa-back">Back</button>
+          <a href="https://wa.me/917055502899?text=I%20love%20you" target="_blank" rel="noopener" id="wa-open">Open WhatsApp</a>
+        </div>
+      </div>
+
+      <!-- Maybe -->
+      <div id="ct-maybe-panel" class="ct-panel" style="display:none">
+        <svg class="resp-ico" xmlns="http://www.w3.org/2000/svg" width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        <p class="resp-txt">That's completely okay.</p>
+        <button class="ret-btn" id="ret-maybe">Return</button>
+      </div>
+
+      <!-- Read -->
+      <div id="ct-read-panel" class="ct-panel" style="display:none">
+        <svg class="resp-ico" xmlns="http://www.w3.org/2000/svg" width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+        <p class="resp-txt">I understand. Take care, Aira.</p>
+        <button class="ret-btn" id="ret-read">Return</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════
+       PAGE: CREDITS
+  ══════════════════════════════════ -->
+  <div id="page-credits" class="page" style="display:none">
+
+    <div id="cr-petals-wrap"></div>
+
+    <!-- Cinematic top bar -->
+    <div id="cr-film-top">
+      <span class="cr-film-hole"></span><span class="cr-film-hole"></span>
+      <span class="cr-film-hole"></span><span class="cr-film-hole"></span>
+      <span class="cr-film-hole"></span><span class="cr-film-hole"></span>
+    </div>
+
+    <!-- Header -->
+    <div id="cr-header">
+      <div id="cr-emblem">
+        <span class="cr-ring cr-r1"></span>
+        <span class="cr-ring cr-r2"></span>
+        <span id="cr-star-ico">✦</span>
+      </div>
+      <p id="cr-eyebrow">A Production</p>
+      <h1 id="cr-big-title">A Message<br>for Aira</h1>
+      <p id="cr-yr">✿ 2025 ✿</p>
+    </div>
+
+    <!-- Divider -->
+    <div class="cr-sep">
+      <span class="cr-sep-line"></span>
+      <span class="cr-sep-diamond">✦</span>
+      <span class="cr-sep-line"></span>
+    </div>
+
+    <!-- Credits list -->
+    <div id="cr-list">
+
+      <div class="cr-item reveal-cr">
+        <p class="cr-role">Director</p>
+        <div class="cr-dots"></div>
+        <p class="cr-name">Abhi Tripathi</p>
+      </div>
+
+      <div class="cr-item reveal-cr">
+        <p class="cr-role">Text Writer</p>
+        <div class="cr-dots"></div>
+        <p class="cr-name">Abhi Tripathi</p>
+      </div>
+
+      <div class="cr-item reveal-cr">
+        <p class="cr-role">Theme & Visual Design</p>
+        <div class="cr-dots"></div>
+        <p class="cr-name">Abhi Tripathi</p>
+      </div>
+
+      <div class="cr-item reveal-cr">
+        <p class="cr-role">Animation</p>
+        <div class="cr-dots"></div>
+        <p class="cr-name">Krish Bhaskar</p>
+      </div>
+
+      <div class="cr-item reveal-cr">
+        <p class="cr-role">Sound Effects & SFX</p>
+        <div class="cr-dots"></div>
+        <p class="cr-name">Ishan</p>
+      </div>
+
+    </div>
+
+    <!-- Divider -->
+    <div class="cr-sep" style="margin-top:3rem">
+      <span class="cr-sep-line"></span>
+      <span class="cr-sep-diamond">✿</span>
+      <span class="cr-sep-line"></span>
+    </div>
+
+    <!-- Dedication -->
+    <div id="cr-dedication">
+      <p id="cr-ded-label">With love, dedicated to</p>
+      <h2 id="cr-ded-name">Aira</h2>
+      <p id="cr-ded-petals">✿  ✿  ✿</p>
+    </div>
+
+    <!-- Final quote -->
+    <div id="cr-quote-block">
+      <span class="cr-quote-mark">"</span>
+      <p id="cr-quote">Made with every ounce of care,<br>every quiet feeling,<br>every word that couldn't be said out loud.</p>
+      <p id="cr-quote-by">— Abhi</p>
+    </div>
+
+    <!-- Film bottom bar -->
+    <div id="cr-film-bot">
+      <span class="cr-film-hole"></span><span class="cr-film-hole"></span>
+      <span class="cr-film-hole"></span><span class="cr-film-hole"></span>
+      <span class="cr-film-hole"></span><span class="cr-film-hole"></span>
+    </div>
+
+  </div><!-- /page-credits -->
+
+  <script src="script.js"></script>
+</body>
+</html>
